@@ -1,0 +1,84 @@
+<html>
+<script>
+	var x=0,y=0,sub=0, ans="",total=0,score=0,right=0,wrong=0;
+	var signs=["*","%","#","$"];
+	function random_n(){ //random and normalize
+		ans="";
+		total+=1;
+		var judge=localStorage.getItem("test10");
+		if(judge!="尚未作答"){
+			right=parseInt(localStorage.getItem("correct_10"));
+			wrong=parseInt(localStorage.getItem("wrong_10"));
+			score=parseInt(localStorage.getItem("score_10"));
+		}
+		document.getElementById("score").innerHTML=score;
+		document.getElementById("right").innerHTML=right;
+		document.getElementById("wrong").innerHTML=wrong;
+		document.getElementById("question").innerHTML=total;
+		document.getElementById("check").disabled=false;
+		document.getElementById("next").disabled=true;
+		document.getElementById("oup").innerHTML="";
+		document.getElementById("inp").value=null;
+		x=Math.floor(Math.random() * 3)+2;//2-4
+		y=Math.floor(Math.random() * 7)+4;//4-10
+		document.getElementById("x").innerHTML=x;
+		document.getElementById("k").innerHTML=y;
+        ans=p0(p0(p0(y)));
+	}
+
+	function p0(a){//find out correct answer
+		return(a*x);
+	}
+
+	function check(){
+		var inp=document.getElementById("inp").value;
+		var oup=document.getElementById("oup");
+		oup.innerHTML=inp;
+		if(inp==ans){
+			oup.innerHTML="答對了";
+			document.getElementById("check").disabled=true;
+			document.getElementById("next").disabled=false;
+			score+=5;
+			right+=1;
+			document.getElementById("score").innerHTML=score;
+			document.getElementById("right").innerHTML=right;
+		}else{
+			oup.innerHTML="答錯了";
+			wrong+=1;
+			document.getElementById("wrong").innerHTML=wrong;
+		}
+		localStorage.setItem("test10",'答對 <font color="#01B468">'+right+'</font> 題、答錯 <font color="#EA0000">'+wrong+'</font> 題、共 <font color="#2828FF">'+score+'</font> 分');
+		localStorage.setItem("correct_10",right);
+		localStorage.setItem("wrong_10",wrong);
+		localStorage.setItem("score_10",score);
+	}
+</script>
+<body onload="random_n();">
+	<H3>追蹤程式，寫出印出結果</H3>
+	第 <span id="question"></span> 題
+	<table border=1>
+		<tr>
+			<td>
+				<font color="red">callee（函式端）</font><br><br>
+				
+        		&nbsp;static int p0(int a){ &nbsp;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = <span id = "x"></span>;<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return(a*x);<br>
+        		&nbsp;}<br><br>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<font color="blue">caller（呼叫端）</font><br><br>
+				&nbsp;static void main(String args[]){ &nbsp;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int k = <span id = "k"></span>, a;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = p0(p0(p0(k)));<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(a);<br>
+        		&nbsp;}<br><br>
+			</td>
+		</tr>	
+	</table>
+	印出結果為： <input type="text" id="inp" size="10"><button id="check" style="height:25px;" onclick="check();">Check</button><button id="next" style="height:25px;" onclick="random_n();">Next</button><br>
+	<span id="oup"></span> 得到 <span id="score"></span> 分<br>
+	目前答對 <font color="green"><span id="right"></span></font> 題、答錯 <font color="red"><span id="wrong"></span></font> 題</body>
+</html>

@@ -1,0 +1,31 @@
+<html>
+<script>
+	var array=[""];
+	function get_item() {
+		for(var i=0;i<9;i++){
+			array[i]=localStorage.getItem("fiberr"+i);
+			document.getElementById("n"+(i+1)).innerHTML=array[i]+" 次";
+		}
+	}
+
+	function clearA() {
+		for(var i=0;i<9;i++){
+			localStorage.setItem("fiberr"+i,0);
+		}
+		get_item();
+	}
+</script>
+<body onload="clearA();get_item();">
+	<button onclick="get_item();">更新數據</button><br>
+	<!--<button onclick="clearA();">重置數據</button><br>-->
+	第1題答錯次數：<span id="n1"></span><br>
+	第2題答錯次數：<span id="n2"></span><br>
+	第3題答錯次數：<span id="n3"></span><br>
+	第4題答錯次數：<span id="n4"></span><br>
+	第5題答錯次數：<span id="n5"></span><br>
+	第6題答錯次數：<span id="n6"></span><br>
+	第7題答錯次數：<span id="n7"></span><br>
+	第8題答錯次數：<span id="n8"></span><br>
+	第9題答錯次數：<span id="n9"></span><br>
+</body>
+</html>

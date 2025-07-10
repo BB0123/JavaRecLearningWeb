@@ -1,0 +1,165 @@
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>遞迴概念輔助學習系統</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"> 
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<style>
+	button{
+		border-radius:10%;
+	}
+</style>
+
+<script>
+	var speechSynthesis = window.speechSynthesis;
+    var utterance = new window.SpeechSynthesisUtterance();
+
+    function speak_def() {
+    	document.getElementById('play_def').disabled=true;
+    	document.getElementById('play_prop').disabled=true;
+    	document.getElementById('play_types').disabled=true;
+    	speechSynthesis.cancel();
+		utterance.lang = "en-US";
+		utterance.rate = "1";
+
+		utterance.text = "Recursion is a technique of making a function call itself.This technique provides a way to break complicated problems down into simple problems which are easier to solve.";
+		document.getElementById("def").style="background:yellow;";
+		speechSynthesis.speak(utterance);
+		setTimeout(function clear_defbg(){
+    		document.getElementById("def").style="background:white;";
+			document.getElementById('play_def').disabled=false;
+			document.getElementById('play_prop').disabled=false;
+    		document.getElementById('play_types').disabled=false;
+    	},10000);
+    }
+    
+
+    function speak_prop() {
+    	document.getElementById('play_def').disabled=true;
+    	document.getElementById('play_prop').disabled=true;
+    	document.getElementById('play_types').disabled=true;
+    	speechSynthesis.cancel();
+		utterance.lang = "en-US";
+		utterance.rate = "1";
+
+		utterance.text = "Recursion has some important properties. Some of which are mentioned below:The primary property of recursion is the ability to solve a problem by breaking it down into smaller sub-problems, each of which can be solved in the same way.A recursive function must have a base case or stopping criteria to avoid infinite recursion.Recursion involves calling the same function within itself, which leads to a call stack.Recursive functions may be less efficient than iterative solutions in terms of memory and performance.";
+		for(var i=1;i<=5;i++){
+			document.getElementById("prop"+i).style="background:yellow;";
+		}
+		
+		speechSynthesis.speak(utterance);
+		setTimeout(function clear_defbg(){
+			for(var i=1;i<=5;i++){
+				document.getElementById("prop"+i).style="background:white;";
+			}
+			document.getElementById('play_def').disabled=false;
+			document.getElementById('play_prop').disabled=false;
+    		document.getElementById('play_types').disabled=false;
+    	},30500);
+    }
+    function speak_types() {
+		document.getElementById('play_def').disabled=true;
+		document.getElementById('play_prop').disabled=true;
+    	document.getElementById('play_types').disabled=true;
+    	speechSynthesis.cancel();
+		utterance.lang = "en-US";
+		utterance.rate = "1";
+
+		utterance.text = "Direct recursion: When a function is called within itself directly it is called direct recursion.This can be further categorised into four types:Tail recursion,Head recursion,Tree recursion andNested recursion.Indirect recursion: Indirect recursion occurs when a function calls another function thateventually calls the original function and it forms a cycle.";
+		for(var i=1;i<=6;i++){
+			document.getElementById("types"+i).style="background:yellow;";
+		}
+		speechSynthesis.speak(utterance);
+		setTimeout(function clear_defbg(){
+			for(var i=1;i<=6;i++){
+				document.getElementById("types"+i).style="background:white;";
+			}
+			document.getElementById('play_def').disabled=false;
+			document.getElementById('play_prop').disabled=false;
+    		document.getElementById('play_types').disabled=false;
+    	},22000);
+    }
+
+</script>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background:#ACD6FF">
+	  <a class="navbar-brand" href="menu.html"><b>遞迴概念輔助學習系統</b></a>
+	  <button class="navbar-toggler" type="button" 
+	          data-toggle="collapse" data-target="#navbarNavDropdown" 
+	          aria-controls="navbarNavDropdown" aria-expanded="false" 
+			  aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		  <li>
+			<a class="nav-link" href="menu.html">首頁</a>
+		  </li>		  
+		  <li class="nav-item active">
+			<a class="nav-link" href="introduce.html">遞迴介紹<span class="sr-only">(current)</span></a>
+		  </li>
+		  <li>
+			<a class="nav-link" href=".\simulate\allsim.html">遞迴模擬</a>
+		  </li>	
+		  <li>
+			<a class="nav-link" href=".\test\alltest.html">遞迴測驗</a>
+		  </li>
+		  <li>
+			<a class="nav-link" href=".\fib\allfib.html">中介提示動態評量</a>
+		  </li>
+		</ul>				
+	  </div>
+</nav><br>
+<H3 style=color:#0072E3>
+	定義
+	<button class= "btn btn-info" id="play_def" onclick="speak_def();" style="font-size:12px;">播放</button>
+</H3>
+ <span id="def">&nbsp;Recursion is a technique of making a function call itself.<br>
+ &nbsp;This technique provides a way to break complicated problems down into simple problems which are easier to solve.</span><br><br>
+ <H3 style=color:#0000C6>
+	特性
+	<button class= "btn btn-info" id="play_prop" onclick="speak_prop();" style="font-size:12px;">播放</button>
+</H3>
+<span id="prop1">&nbsp;Recursion has some important properties. Some of which are mentioned below:<br></span>
+<ul>
+	<li><span id="prop2">The primary property of recursion is the ability to solve a problem by breaking it down into smaller sub-problems, each of which can be solved in the same way.</span></li>
+	<li><span id="prop3">A recursive function must have a base case or stopping criteria to avoid infinite recursion.</span></li>
+	<li><span id="prop4">Recursion involves calling the same function within itself, which leads to a call stack.</span></li>
+	<li><span id="prop5">Recursive functions may be less efficient than iterative solutions in terms of memory and performance.</span></li>
+</ul>
+<br><br>
+<H3 style=color:#5B00AE>
+	類型
+	<button class= "btn btn-info" id="play_types" onclick="speak_types();" style="font-size:12px;">播放</button>
+</H3>
+<ol>
+		<li><span id="types1">Direct recursion: When a function is called within itself directly it is called direct recursion.<br>
+		This can be further categorised into four types:<br></span> 
+	<ul>
+		<li><span id="types2">Tail recursion  </span></li>
+		<li><span id="types3">Head recursion  </span></li>
+		<li><span id="types4">Tree recursion </span></li>
+		<li><span id="types5">Nested recursion.</span></li>
+	</ul>
+		</li>
+		<li>
+		<span id="types6">Indirect recursion: Indirect recursion occurs when a function calls another function that <br> eventually calls the original function and it forms a cycle.</span>
+		</li>
+</ol>
+
+<br><br><br><br><br>
+References:<br>
+<a href="https://www.geeksforgeeks.org/what-is-recursion/" target="_blank">https://www.geeksforgeeks.org/what-is-recursion/ </a><br>
+<a href="https://www.w3schools.com/c/c_functions_recursion.php" target="_blank">https://www.w3schools.com/c/c_functions_recursion.php</a>
+<center>
+<br><br>
+<!--總共耗時:<span id='cnt'></span>秒<br>
+<button onclick="reset();">重置秒數</button> -->
+</center>
+</body>
+</html>

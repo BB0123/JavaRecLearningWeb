@@ -1,0 +1,37 @@
+<html>
+<script>
+	var array=[""];
+	function get_item() {
+		for(var i=0;i<11;i++){
+			array[i]=localStorage.getItem("sim"+(i+1));
+			if(array[i]==0){
+				document.getElementById("n"+(i+1)).innerHTML="尚未模擬";
+			}
+			else
+				document.getElementById("n"+(i+1)).innerHTML="已模擬 "+array[i]+" 次";
+		}
+	}
+
+	function clearA() {
+		for(var i=1;i<12;i++){
+				localStorage.setItem("sim"+i,0);
+				document.getElementById("n"+i).innerHTML="尚未模擬";
+		}
+	}
+</script>
+<body onload="clearA();get_item();">
+	<button onclick="get_item();">更新數據</button> 
+	<button onclick="clearA();">重置數據</button><br>
+	第1題型：<span id="n1"></span><br>
+	第2題型：<span id="n2"></span><br>
+	第3題型：<span id="n3"></span><br>
+	第4題型：<span id="n4"></span><br>
+	第5題型：<span id="n5"></span><br>
+	第6題型：<span id="n6"></span><br>
+	第7題型：<span id="n7"></span><br>
+	<!--第8題型：<span id="n8"></span><br>
+	第9題型：<span id="n9"></span><br>
+	第10題型：<span id="n10"></span><br>
+	第11題型：<span id="n11"></span><br>-->
+</body>
+</html>

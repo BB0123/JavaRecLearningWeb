@@ -1,0 +1,235 @@
+<html>
+<script>
+//新增:array errcount, function sherrcnt(), button:show error counts for each question
+//缺good.gif、bad.gif
+//二地方: need to complete
+//localStorage : not handled
+//alert('漸進提示之動態評量-1');
+var questbank = ['n+...+3+2+1', //1
+    'n+...+5+3+1', //2
+    'n+...+8+4+2', //3
+    'n!', //4
+    'n*..*5*3*1', //5
+    'n*..*8*4*2', //6               
+    'n*n+...+9+4+1', //7
+    '1*2+2*3+.....', //8
+    '1*2+3*4+.....' /*9*/
+]; //9題:一題一項
+var ansbank = ['1', 'n+rec1(n-1)', 'rec1(n-1)+n', //1
+    '1', 'n+rec1(n-2)', 'rec1(n-2)+n', //2
+    '2', 'n+rec1(n/2)', 'rec1(n/2)+n', //3
+    '1', 'n*rec1(n-1)', 'rec1(n-1)*n', //4
+    '1', 'n*rec1(n-2)', 'rec1(n-2)*n', //5
+    '2', 'n*rec1(n/2)', 'rec1(n/2)*n', //6
+    '1', 'n*n+rec1(n-1)', 'rec1(n-1)+n*n', //7
+    '1', 'n*(n-1)+rec1(n-1)', 'rec1(n-1)+n*(n-1)', '(n-1)*n+rec1(n-1)', 'rec1(n-1)+(n-1)*n', //8
+    '1', 'n*(n-1)+rec1(n-2)', 'rec1(n-2)+n*(n-1)', 'rec1(n-2)+(n-1)*n', '(n-1)*n+rec1(n-2)' //9
+]; //一題三項，二或三 (need to complete)
+var errbank = ['n<=0', //1
+    'n<=0||n%2!=1', //2
+    'n<=0||n%2!=0', //3
+    'n<=0', //4
+    'n<=0||n%2!=1', //5
+    'n<=0||n%2!=0', //6
+    'n<=0', //7
+    'n<0', //8
+    'n<0', //9
+];
+var inperrbank = ['n<=0', //1
+    'n<=0||n%2!=1', //2
+    'n<=0||n%2!=0', //3
+    'n<=0', //4
+    'n<=0||n%2!=1', //5
+    'n<=0||n%2!=0', //6
+    'n<=0', //7
+    'n<0', //8
+    'n<0', //9
+];
+var condbank = ['n==1', //1
+    'n==1', //2
+    'n==2', //3
+    'n==1', //4
+    'n==1', //5
+    'n==2', //6
+    'n==1', //7
+    'n==0', //8
+    'n<=1', //9
+];
+var promptbank = ['base case之回返值', '遞迴之回返呼叫', '觀察<b>等差</b>之差值']; //三種漸進提示(共同)
+var promptdetail = ['1', '有二種， 如 ?? + rec1( ?? - ? )', '1', //1
+    '1', '有二種， 如 ?? + rec1( ?? - ? )', '2', //2
+    '2', '有二種， 如 ?? + rec1( ?? / ? )', '2', //3
+    '1', '有二種， 如 ?? * rec1( ?? - ? )', '1', //4
+    '1', '有二種， 如 ?? * rec1( ?? - ? )', '2', //5
+    '2', '有二種， 如 ?? * rec1( ?? / ? )', '2', //6
+    '1', '有二種， 如 ?? * ?? + rec1( ?? - ? )', '1', //7
+    '1', '有四種， 如 ?? * (?? - ?) + rec1( ?? - ? )', '1', //8
+    '1', '有四種， 如 ?? * (?? - ???) + rec1( ?? - ? )', '2', //9
+]; //三種漸進提示細節 (need to complete)
+var errcount = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //新增: for each questions答錯次數! New
+var n = -1; //getElementById
+var score = 0;
+var msg = "";
+var wrongcount = 0;
+
+function showproblem() {
+    var quest = document.getElementById('ques');
+    quest.innerHTML = questbank[n];
+    var err = document.getElementById('err1');
+    err.innerHTML = errbank[n];
+    var inputerr = document.getElementById('inputerr');
+    inputerr.innerHTML = inperrbank[n];
+    var cond = document.getElementById('cond1');
+    cond.innerHTML = condbank[n];
+    var count1 = document.getElementById('count1');
+    count1.innerHTML = wrongcount;
+}
+
+function check() {
+    var ans1 = document.getElementById('ans1').value;
+    var ans2 = document.getElementById('ans2').value;
+    if (n == 7) {
+        if (ans1 == ansbank[3 * n + 0] && (ans2 == ansbank[3 * n + 1] || ans2 == ansbank[3 * n + 2] || ans2 == ansbank[3 * n + 3] || ans2 == ansbank[3 * n + 4])) {
+            score = score + 10 - wrongcount * 2;
+            msg = "<img src=good.gif width=60 height=60><font color=green>答對!!</font>"; //positive feedback  
+            next1.disabled = false;
+            //wrongcount = 0;
+            check1.disabled = true;
+        } else if (wrongcount == 0) { //first prompts
+            if (ans1 != ansbank[3 * n + 0]) msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 0] + "<br>";
+            if (!(ans2 == ansbank[3 * n + 1] || ans2 == ansbank[3 * n + 2] || ans2 == ansbank[3 * n + 3] || ans2 == ansbank[3 * n + 4])) msg += "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 1];
+            wrongcount = 1;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount == 1) { //second prompts
+            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            wrongcount = 2;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount >= 2) { //third prompts
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
+            msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
+            //wrongcount=3;
+            wrongcount++;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        }
+    } else if (n == 8) {
+        if (ans1 == ansbank[3 * n + 2] && (ans2 == ansbank[3 * n + 3] || ans2 == ansbank[3 * n + 4] || ans2 == ansbank[3 * n + 5] || ans2 == ansbank[3 * n + 6])) {
+            score = score + 10 - wrongcount * 2;
+            msg = "<img src=good.gif width=60 height=60><font color=green>答對!!</font>"; //positive feedback  
+            next1.disabled = false;
+            //wrongcount = 0;
+            check1.disabled = true;
+        } else if (wrongcount == 0) { //first prompts
+            if (ans1 != ansbank[3 * n + 2]) msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 0] + "<br>";
+            if (!(ans2 == ansbank[3 * n + 3] || ans2 == ansbank[3 * n + 4] || ans2 == ansbank[3 * n + 5] || ans2 == ansbank[3 * n + 6])) msg += "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 1];
+            wrongcount = 1;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount == 1) { //second prompts
+            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            wrongcount = 2;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount >= 2) { //third prompts
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
+            msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
+            //wrongcount=3;
+            wrongcount++;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        }
+    } else {
+        if (ans1 == ansbank[3 * n + 0] && (ans2 == ansbank[3 * n + 1] || ans2 == ansbank[3 * n + 2])) {
+            score = score + 10 - wrongcount * 2;
+            msg = "<img src=good.gif width=60 height=60><font color=green>答對!!</font>"; //positive feedback  
+            next1.disabled = false;
+            //wrongcount = 0;
+            check1.disabled = true;
+        } else if (wrongcount == 0) { //first prompts
+            if (ans1 != ansbank[3 * n + 0]) msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 0] + "<br>";
+            if (!(ans2 == ansbank[3 * n + 1] || ans2 == ansbank[3 * n + 2])) msg += "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 1];
+            wrongcount = 1;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount == 1) { //second prompts
+            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            wrongcount = 2;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        } else if (wrongcount >= 2) { //third prompts
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
+            msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
+            //wrongcount=3;
+            wrongcount++;
+            errcount[n] = wrongcount;
+            localStorage.setItem("fiberr"+n,errcount[n]);
+        }
+    }
+    //show feedback
+    var count1 = document.getElementById('count1');
+    count1.innerHTML = wrongcount;
+    var showmsg = document.getElementById('msg1');
+    showmsg.innerHTML = msg;
+    var sc = document.getElementById('sc1');
+    sc.innerHTML = score;
+    if (wrongcount > 4) //錯5次後，可按next problem
+    {
+        next1.disabled = false;
+        //wrongcount=0;
+    }
+    if(n==8) next1.disabled = true;
+}
+
+function next() {
+    for(var i=0;i<9;i++){
+        errcount[i]=localStorage.getItem("fiberr"+i);
+    }
+    n++; //題號
+    wrongcount = 0;
+    var pn1 = document.getElementById('pn');
+    pn1.innerHTML = eval(n + 1);
+    showproblem();
+    var next1 = document.getElementById('next1');
+    next1.disabled = true;
+    check1.disabled = false;
+    document.getElementById('ans1').value="";
+    document.getElementById('ans2').value="";
+    document.getElementById('count1').innerHTML="";
+    document.getElementById('msg1').innerHTML="";
+}
+
+function sherrcnt() { //新增
+    var allcnt = "";
+    for(var i=0;i<9;i++){
+        errcount[i]=localStorage.getItem("fiberr"+i);
+    }
+    for (var i = 0; i < questbank.length; i++) allcnt += "第" + eval(i + 1) + "答錯次數:" + errcount[i] + "\n";
+    alert(allcnt);
+}
+</script>
+<body onload='next();'>
+<h1>自我挑戰:請用<b>遞迴</b>技巧完成填充題</h1><font size=5>
+第<span id='pn'></span>題:解<font color=red><span id="ques"></span></font><br>
+int rec1(int n){<br>
+if (<span id="err1"> </span>) {<br>
+ &nbsp;&nbsp;System.out.println("輸入數值須為<span id="inputerr"> </span>");<br>
+ &nbsp;&nbsp;return (-1);} <br>
+else if (<span id="cond1"> </span>) <br>
+ &nbsp;&nbsp;return <input size=8 id="ans1"> ;<br>
+else <br>
+ &nbsp;&nbsp;return <input size=8 id="ans2"> ;<br>
+}</br>
+<button onclick="check();" id='check1'>Check Answer</button>
+<button onclick="next();" id='next1'>Next Question</button>
+<button onclick="sherrcnt();">show error counts for each question</button>
+<br>
+本題答錯次數 :<span id="count1">0</span>次<br>
+分數: <span id="sc1">0</span>分<br>
+<span id="msg1"></span>
+</font>
+</body></html>

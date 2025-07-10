@@ -1,0 +1,41 @@
+<html>
+<script>
+	var array=["q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11"];
+	function get_item() {
+		/*var q1=localStorage.getItem("test1");
+		document.getElementById("n1").innerHTML=q1;
+		var q2=localStorage.getItem("test2");
+		document.getElementById("n2").innerHTML=q2;*/
+
+		for(var i=0;i<11;i++){
+			array[i]=localStorage.getItem("test"+(i+1));
+			document.getElementById("n"+(i+1)).innerHTML=array[i];
+		}
+	}
+
+	function clearA() {
+		for(var i=1;i<12;i++){
+				localStorage.setItem("test"+i,"尚未作答");
+				localStorage.setItem("correct_"+i,0);
+				localStorage.setItem("wrong_"+i,0);
+				localStorage.setItem("score_"+i,0);
+				document.getElementById("n"+i).innerHTML="尚未作答";
+		}
+	}
+</script>
+<body onload="clearA();get_item();">
+	<button onclick="get_item();">更新數據</button> 
+	<button onclick="clearA();">重置數據</button><br>
+	第1題型：<span id="n1"></span><br>
+	第2題型：<span id="n2"></span><br>
+	第3題型：<span id="n3"></span><br>
+	第4題型：<span id="n4"></span><br>
+	第5題型：<span id="n5"></span><br>
+	第6題型：<span id="n6"></span><br>
+	第7題型：<span id="n7"></span><br>
+	第8題型：<span id="n8"></span><br>
+	第9題型：<span id="n9"></span><br>
+	第10題型：<span id="n10"></span><br>
+	第11題型：<span id="n11"></span><br>
+</body>
+</html>

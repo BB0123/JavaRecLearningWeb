@@ -1,0 +1,284 @@
+<html>
+<script>
+var ref1=["t0","t1","t2","t3","t4","t5"];
+var ref2=["c0","c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12"];
+var code1=["int a=","call demoA(", "public static void demoA(int n)","if (n>1)","條件符合; call demoA(","System.out.print("];
+var comment1=["宣告變數且放入初值:int a=","呼叫函式:demoA(", "執行函式:public static void demoA(int n)","如果n>0: if (n>0)","條件符合; then再呼叫函式:demoA(","印出:System.out.print("];
+var ans="",tmp,stackop="",stackstore="";
+var time=0;
+    function check1(){
+        var input = document.getElementById("a1").value;
+        ans="";
+        demoA(input);
+        var uans= document.getElementById("res1").value;
+        var fb1= document.getElementById("feedback1");
+        if (uans==ans)
+            fb1.innerHTML="<font color=red>Correct!</font>" ;
+        else 
+            fb1.innerHTML="<font color=blue>Incorrect!</font>" ;
+    }
+
+	function run_answer(){
+        clearall();
+        time=localStorage.getItem("sim3");
+		var input = document.getElementById("a1").value;
+                a=input;
+		if(input>=0 && input<=6 && input%1==0){
+			ans="";
+			demoA(input);
+			document.getElementById("res1").value="";
+            document.getElementById("feedback1").innerHTML="";
+            document.getElementById('nextstep').disabled=false;
+            document.getElementById('animatestart').disabled=false;
+            document.getElementById('startall').disabled=false;
+            document.getElementById('clear_all').disabled=false;
+            document.getElementById('checkans').disabled=false;
+            document.getElementById('showans').disabled=false;
+		}
+		else{
+			alert("請輸入整數 0~6");
+			document.getElementById("res1").value="";
+            document.getElementById("feedback1").innerHTML="";
+            document.getElementById('nextstep').disabled=true;
+            document.getElementById('animatestart').disabled=true;
+            document.getElementById('startall').disabled=true;
+            document.getElementById('clear_all').disabled=true;
+            document.getElementById('checkans').disabled=true;
+            document.getElementById('showans').disabled=true;
+		}
+	}
+
+	function demoA(n){
+        if (n>0) {
+            demoA(Math.floor(n/2));
+            ans=ans+""+n%2;
+        }
+	}
+
+var seq=-1, prev=-1,next=0, speed=1, sol=1, b=0, c=0, second=500, sw=0;
+var timerid, timerid2, ended=1,x=0,y=0;
+var a=4, n=4, stackID="c", allcodes="";
+function start(){
+   second=500*speed;   seq=-1;ended=1;prev=-1;next=0;
+  timerid=window.setInterval("anishow();", second);
+}
+function startforall(){
+  timerid2=window.setInterval("anishow();", 1);
+}
+function cleantimer(){
+    window.clearInterval(timerid); 
+    window.clearInterval(timerid2); 
+    seq=-1;ended=1;prev=-1;next=0;
+ }
+
+function anishow(){
+    if (ended==1) calnext();
+    else cleantimer();
+}
+function step(){
+ calnext();
+}
+
+function calnext() { 
+    document.getElementById('a_inp').disabled=true;
+    document.getElementById('clear_all').disabled=true;
+
+    document.getElementById('a1').disabled=true;
+ if  (next==0) { //(prev==-1 && seq==-1)
+      //prev=-1;
+      a=document.getElementById('a1').value;
+      document.getElementById('aa1').value=a;
+      n=a;
+      seq=prev+1;show(seq); 
+      prev=seq; next=1;  
+   }
+else if (next==1|| next==4) {//change n, call demoA, next is t2
+   if (next==1) { n=a; stackID="c0";    } 
+   if (next==4) { n=Math.floor(n/2); tmp++;stackID="c"+tmp;  } 
+   if (next==1) prev=0; 
+   else if (next==4) prev=3;
+  dis_show(prev);
+  seq=next;show(seq);   
+  prev=next; next=2;
+  }
+else if (next==2) {
+   document.getElementById('n1').value=n; 
+   document.getElementById(stackID).innerHTML="demoA("+n+");<br>"+stackstore; 
+   stackstore="";
+   dis_show(prev); //prev=0 or 4
+  seq=next;show(seq); prev=next; next=3;
+}
+ else if (next==3) { //if
+   dis_show(prev); 
+   seq=prev+1;show(seq);     //x=a;
+   if (n>0) {
+        prev=3; seq=4; next=4; 
+        stackstore='System.out.print('+(n%2)+');';
+        stackop='  System.out.print('+(n%2)+'); \n'+stackop;
+    }
+   else       {prev=3; seq=5; next=5;}
+  }
+ else if (next==6) {   
+    dis_show(prev); 
+    prev=-1;seq=-1;next=-1; ended=0;
+    for(var i=a;i>=0;i--)
+       document.getElementById("c"+i).innerHTML="&nbsp;"; //pop
+    document.getElementById('current').value="pop all from system stack： "+stackop; 
+    document.getElementById('allcode').value=allcodes+"pop all from system stack： \n"+stackop;
+    cleantimer();
+    time++;
+    localStorage.setItem("sim3",time);
+    document.getElementById('nextstep').disabled=true;
+    document.getElementById('a_inp').disabled=false;
+    document.getElementById('clear_all').disabled=false;
+    document.getElementById('a1').disabled=false;
+   }
+else {//next==5
+    for(var i=a;i>=0;i--)
+       document.getElementById("c"+i).innerHTML="&nbsp;"; //pop
+   dis_show(prev); 
+   seq=next;//prev+1
+   show(seq); 
+   prev=seq; next++;seq=next;//for next step
+    }
+ }
+
+function show(seq){
+    var codemsg="", xc;
+    if (seq>=0){
+        document.getElementById(ref1[seq]).style="background:yellow;";
+        if (seq==0 )     codemsg=a+";";//int a= ;
+        else if (seq==1 ) codemsg=a+");";//demoA(a);
+        else if (seq==5 ){
+            codemsg="條件不符合，遞迴結束。";
+        }  
+        else if (seq==4 ) codemsg=eval(n)+");";//demoA(n/2);
+        if(seq==5){
+            document.getElementById('current').value=codemsg;
+            allcodes=allcodes+codemsg+"\n";
+            document.getElementById('allcode').value=allcodes;
+        }
+        else{
+            document.getElementById('current').value=code1[seq]+codemsg;
+            allcodes=allcodes+comment1[seq]+codemsg+"\n";
+            document.getElementById('allcode').value=allcodes;
+        }
+  }
+     }
+function dis_show(prev){
+    if (prev>=0){
+        document.getElementById(ref1[prev]).style="background:white;";
+        document.getElementById(ref2[prev]).style="background:white;";
+     }
+  }
+function clearall(){
+        allcodes="";
+        tmp=0;
+        stackop="";
+        time=localStorage.getItem("sim3");
+        document.getElementById('current').value="";
+        document.getElementById('allcode').value="";
+        document.getElementById('nextstep').disabled=false;
+        for(var i=0;i<7;i++) {
+            document.getElementById("c"+i).innerHTML="&nbsp;"; //pop
+        }
+}
+function showcode(){
+ var scode="public class recursive3 {<br>";
+  scode+="&nbsp;public static void main(String[] args) {<br>";
+  scode+="&nbsp;&nbsp;int a="+a+";<br>";
+  scode+="&nbsp;&nbsp;demoA(a);<br>";
+  scode+=" &nbsp;}//main<br><br>";
+  scode+="&nbsp;public static void demoA(int n){<br>";
+  scode+="&nbsp;&nbsp;if (n>0) {<br>";
+  scode+="&nbsp;&nbsp;&nbsp;demoA(n/2);<br>";
+  scode+="&nbsp;&nbsp;&nbsp;System.out.print(n%2);<br>";
+  scode+="&nbsp;&nbsp;}<br>";
+  scode+="&nbsp;}<br>";
+  scode+=" }//class<br>";
+  var op=window.open();//about:blank
+  op.document.open();
+  op.document.write("<html><body><p>Let's review java codes!</p><table border=2><tr><td>");
+  op.document.write(scode);
+  op.document.write("</td></tr></table></body></html>");
+  op.document.close();
+ }
+ function show_answer(){  
+   run_answer();
+   document.getElementById("res1").value=ans;
+}
+</script>
+
+<body onload="run_answer();">
+<p>遞迴追蹤：輸入實際參數a(<font color=red>0~6</font>)，追蹤執行結果</p>
+<table border=1>
+<tr>
+ <td>
+  <table style="border:1px #666666 solid;padding:5px;" rules="all" cellpadding='5';>
+    <tr>
+    	<td>Callee：<br>
+    	&nbsp;<span id='t2'>public static void demoA(int n)</span>{ &nbsp;<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='t3'>if (n>0) {</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='t4'>demoA(n/2);</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='t5'>System.out.print(n%2);</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>
+		&nbsp;}<br><br>
+   		</td>
+   	</tr>
+   	<tr>
+    	<td>Caller:<br>
+    	&nbsp;<span id='t0'> int a=</span><input type=text id=a1 size=1 value=2>;&nbsp;&nbsp;<button id="a_inp" onclick="clearall();run_answer();">確認</button><br>
+    	&nbsp; <span id='t1'>demoA(a);</span><br>
+   		</td>
+  	</tr>
+  </table>
+  <font color=red>預測答案</font>
+  <br>執行結果印出:<input type=text id=res1 size=6><br>
+  <button id="checkans" onclick='check1();'>Check</button>
+  <button id="showans" onclick='show_answer();'>Ans</button><br>
+  <span id="feedback1">&nbsp;&nbsp;</span>
+ </td>
+ <td>變數區<br><br>
+Callee:<br>
+n = <input type=text id=n1 size=1 value=2>
+<br><br><hr><br><br>
+Caller:<br>
+a = <input type=text id=aa1 size=1 value=2>
+</td>
+				<td>
+					<table style="border:1px #666666 solid;padding:5px;" rules="all" cellpadding='5';>
+					<tr><td width=90><span id='c6'>&nbsp; </span></td></tr>
+					<tr><td><span id='c5'>&nbsp;</span></td></tr>
+					<tr><td><span id='c4'>&nbsp;</span></td></tr>
+					<tr><td><span id='c3'>&nbsp;</span></td></tr>
+					<tr><td><span id='c2'>&nbsp;</span></td></tr>
+					<tr><td><span id='c1'>&nbsp;</span></td></tr>
+					<tr><td> <span id='c0'>&nbsp;</span></td></tr>
+					<tr><td style="color:blue;">System stack</td></tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<div> 執行方式：
+			<input type="radio" name="way" id="s1" checked>逐步
+			<input type="radio" name="way" id="s2">動畫
+			<input type="radio" name="way" id="s3">run-all
+		</div>
+		<div> 執行速度：
+		<input type="radio" name="speed" id="s1" onclick="speed=0.5;">快
+		<input type="radio" name="speed" id="s2" onclick="speed=1;" checked>中
+		<input type="radio" name="speed" id="s3" onclick="speed=2;">慢
+		</div>
+		操作：
+		<button id="animatestart" style="height:25px;" onclick="clearall();start();">動畫開始</button>
+        <button id="nextstep" style="height:25px;" onclick="step();">下一步</button>
+        <button id="clear_all" style="height:25px;" onclick="clearall();">Clear all</button>
+        <button style="height:25px;" onclick="showcode();">review codes</button>
+        <button id="startall" style="height:25px;" onclick="clearall();startforall();">run-all</button><br>
+		目前步驟：
+		<input type="text" id="current" size="46" readonly ><br>
+		所有步驟：<br>
+		<textarea name="mytext" rows="16" cols="55" id="allcode" readonly>
+</textarea>
+	</body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>遞迴概念輔助學習系統</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"> 
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<style>
+	button{
+		border-radius:10%;
+	}
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background:#ACD6FF">
+	  <a class="navbar-brand" href="menu.html"><b>遞迴概念輔助學習系統</b></a>
+	  <button class="navbar-toggler" type="button" 
+	          data-toggle="collapse" data-target="#navbarNavDropdown" 
+	          aria-controls="navbarNavDropdown" aria-expanded="false" 
+			  aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		  <li class="nav-item active">
+			<a class="nav-link" href="menu.html">首頁<span class="sr-only">(current)</span></a>
+		  </li>		  
+		  <li>
+			<a class="nav-link" href="introduce.html">遞迴介紹</a>
+		  </li>
+		  <li>
+			<a class="nav-link" href=".\simulate\allsim.html">遞迴模擬</a>
+		  </li>	
+		  <li>
+			<a class="nav-link" href=".\test\alltest.html">遞迴測驗</a>
+		  </li>	
+		  <li>
+			<a class="nav-link" href=".\fib\allfib.html">中介提示動態評量</a>
+		  </li>
+		</ul>				
+	  </div>
+</nav>
+	
+<font color = "#0000C6" size="7"><marquee direction=right behavior=alternate><b>遞迴概念輔助學習系統</b></marquee></font><br><br>
+
+<!--	<font size="5">
+<button type="button" class= "btn btn-info" onclick='location.href="introduce.html"'>遞迴介紹</button>
+<br><br>
+<button type="button" class= "btn btn-info" onclick='location.href="./simulate/allsim.html"'>遞迴模擬</button>
+<br><br>
+<button type="button" class= "btn btn-info" onclick='location.href="./test/alltest.html"'>遞迴測驗</button>
+<br><br>
+</font>-->
+<center>
+<font size='5' color="#930093"><b>關於</b></font><br>
+遞迴概念在程式設計學習中是最困難的項目之一，<br>
+因此設計此系統用以幫助同學突破學習困境。<br><br>
+
+此系統提供遞迴之<font color="red"><b>介紹</b></font>、<font color="red"><b>模擬</b></font>、<font color="red"><b>測驗</b></font>及<font color="red"><b>中介提示動態評量</b></font>。<br><br>
+
+其中遞迴模擬可<b>自行輸入變數</b>得到執行結果，可以<b>追蹤程式碼執行過程</b>，<br>
+亦<b>有模擬stack的圖形</b>，可以了解stack中的內容隨著程式執行之變化情形。<br><br>
+
+而遞迴測驗會隨機變數出題、記錄測驗歷程，<br>
+用以幫助自己掌握還有哪部分觀念不足而進一步增強。<br><br>
+
+中介提示動態評量為填空練習，記錄答錯次數，<br>
+答錯時，會根據答錯次數給予不同階段的提示。
+<!--總共耗時:<span id='cnt'></span>秒<br>
+<button onclick="reset();">重置秒數</button> -->
+</center>
+</body>
+</html>

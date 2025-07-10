@@ -1,0 +1,95 @@
+<html>
+<script>
+	var x=0,y=0,sub=0,array=[""], ans="",total=0,score=0,right=0,wrong=0;
+	function random_n(){ //random and normalize
+		ans="";
+		total+=1;
+		var judge=localStorage.getItem("test7");
+		if(judge!="尚未作答"){
+			right=parseInt(localStorage.getItem("correct_7"));
+			wrong=parseInt(localStorage.getItem("wrong_7"));
+			score=parseInt(localStorage.getItem("score_7"));
+		}
+		array=[""];
+		document.getElementById("arrlen").innerHTML="";
+		document.getElementById("score").innerHTML=score;
+		document.getElementById("right").innerHTML=right;
+		document.getElementById("wrong").innerHTML=wrong;
+		document.getElementById("question").innerHTML=total;
+		document.getElementById("check").disabled=false;
+		document.getElementById("next").disabled=true;
+		document.getElementById("oup").innerHTML="";
+		document.getElementById("inp").value=null;
+		sub=Math.floor(Math.random() * 5);
+		document.getElementById("sub").innerHTML=sub;
+		y=sub+Math.floor(Math.random() * 5)+1;//1-5 差
+		document.getElementById("ax").innerHTML=y;
+		x=y+Math.floor(Math.random() * 3)+3;//arraylength
+		for(var i=0;i<x;i++){
+			var z=Math.floor(Math.random() * 18)+3;//3-20
+			array[i]=z;
+			document.getElementById("arrlen").innerHTML+=array[i];
+			if(i<x-1)
+				document.getElementById("arrlen").innerHTML+=",";
+		}
+        demoA(array,sub,y);
+	}
+	function demoA(array,m,n){//find out correct answer
+		if(m<(array.length)){
+			n=(array[m]<n)?n:array[m];
+			demoA(array,m+1,n);
+		}
+		else {ans+=n;}
+	}
+	function check(){
+		var inp=document.getElementById("inp").value;
+		var oup=document.getElementById("oup");
+		oup.innerHTML=inp;
+		if(inp==ans){
+			oup.innerHTML="答對了";
+			document.getElementById("check").disabled=true;
+			document.getElementById("next").disabled=false;
+			score+=5;
+			right+=1;
+			document.getElementById("score").innerHTML=score;
+			document.getElementById("right").innerHTML=right;
+		}else{
+			oup.innerHTML="答錯了";
+			wrong+=1;
+			document.getElementById("wrong").innerHTML=wrong;
+		}
+		localStorage.setItem("test7",'答對 <font color="#01B468">'+right+'</font> 題、答錯 <font color="#EA0000">'+wrong+'</font> 題、共 <font color="#2828FF">'+score+'</font> 分');
+		localStorage.setItem("correct_7",right);
+		localStorage.setItem("wrong_7",wrong);
+		localStorage.setItem("score_7",score);
+	}
+</script>
+<body onload="random_n();">
+	<H3>追蹤程式，寫出印出結果</H3>
+	第 <span id="question"></span> 題
+	<table border=1>
+		<tr>
+			<td>
+				<font color="red">callee（函式端）</font><br><br>
+				&nbsp;Public static void demoA(int [] a, int m, int n){ &nbsp;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m &lt; a.length){<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n =(a[m]&lt;n)?n:a[m];<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demoA(a,m++,n);<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else System.out.print(n);<br>
+        		&nbsp;}<br>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<font color="blue">caller（呼叫端）</font><br><br>
+				&nbsp;int [] ss1={<span id="arrlen"></span>};&nbsp;<br>
+				&nbsp;demoA(ss1,<span id="sub"></span>,<span id="ax"></span>);&nbsp;<br>
+			</td>
+		</tr>	
+	</table>
+	印出結果為： <input type="text" id="inp" size="10"><button id="check" style="height:25px;" onclick="check();">Check</button><button id="next" style="height:25px;" onclick="random_n();">Next</button><br>
+	<span id="oup"></span> 得到 <span id="score"></span> 分<br>
+	目前答對 <font color="green"><span id="right"></span></font> 題、答錯 <font color="red"><span id="wrong"></span></font> 題
+</body>
+</html>

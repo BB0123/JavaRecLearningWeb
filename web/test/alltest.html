@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>遞迴概念輔助學習</title>
+		<link rel="stylesheet" href="./../bootstrap/css/bootstrap.min.css"> 
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+	</head>
+	<style>
+		button{
+			border-radius:10%;
+		}
+	</style>
+	<script>
+
+		function select_question() {
+			var num=document.getElementById("question_num").value;
+			//var num=question_num.selectedIndex;
+			document.getElementById("frame").src="test"+num+".html";
+		}
+
+		function clearA() {
+			for(var i=1;i<12;i++){
+				localStorage.setItem("test"+i,"尚未作答");
+				localStorage.setItem("correct_"+i,0);
+				localStorage.setItem("wrong_"+i,0);
+				localStorage.setItem("score_"+i,0);
+			}
+		}
+
+	</script>
+
+	<body onload="select_question();clearA();">
+		<nav class="navbar navbar-expand-lg navbar-light" style="background:#ACD6FF">
+	  <a class="navbar-brand" href=".\..\menu.html"><b>遞迴概念輔助學習系統</b></a>
+	  <button class="navbar-toggler" type="button" 
+	          data-toggle="collapse" data-target="#navbarNavDropdown" 
+	          aria-controls="navbarNavDropdown" aria-expanded="false" 
+			  aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		  <li>
+			<a class="nav-link" href=".\..\menu.html">首頁</a>
+		  </li>		  
+		  <li>
+			<a class="nav-link" href=".\..\introduce.html">遞迴介紹</a>
+		  </li>
+		  <li>
+			<a class="nav-link" href=".\..\simulate\allsim.html">遞迴模擬</a>
+		  </li>	
+		  <li class="nav-item active">
+			<a class="nav-link" href="alltest.html">遞迴測驗<span class="sr-only">(current)</span></a>
+		  </li>
+		  <li>
+			<a class="nav-link" href=".\..\fib\allfib.html">中介提示動態評量</a>
+		  </li>
+		</ul>				
+	  </div>
+</nav>
+		<title>遞迴程式追蹤挑戰</title>
+		<H1 style=color:#007979>遞迴程式追蹤挑戰</H1>
+		第<select id="question_num">
+			<option value="1" selected>1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+		</select>題型
+		<button class= "btn btn-info" onclick="select_question();" style="font-size:12px;">確定</button><br>
+		<iframe id="frame" height=450 width=450 src="test1.html"></iframe>
+		<iframe id="feedback" height=450 width=350 src="result.html">
+		</iframe>
+	</body>
+</html>
