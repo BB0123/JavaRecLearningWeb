@@ -15,12 +15,6 @@
 	</style>
 	<script>
 
-		function select_question() {
-			var num=document.getElementById("question_num").value;
-			//var num=question_num.selectedIndex;
-			document.getElementById("frame").src="test"+num+".html";
-		}
-
 		function clearA() {
 			for(var i=1;i<12;i++){
 				localStorage.setItem("test"+i,"尚未作答");
@@ -32,7 +26,7 @@
 
 	</script>
 
-	<body onload="select_question();clearA();">
+	<body onload="clearA();">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background:#ACD6FF">
 	  <a class="navbar-brand" href=".\..\menu.html"><b>遞迴概念輔助學習系統</b></a>
 	  <button class="navbar-toggler" type="button" 
