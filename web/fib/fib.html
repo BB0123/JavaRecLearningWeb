@@ -55,16 +55,16 @@ var condbank = ['n==1', //1
     'n==0', //8
     'n<=1', //9
 ];
-var promptbank = ['base case之回返值', '遞迴之回返呼叫', '觀察<b>等差</b>之差值']; //三種漸進提示(共同)
-var promptdetail = ['1', '有二種， 如 ?? + rec1( ?? - ? )', '1', //1
-    '1', '有二種， 如 ?? + rec1( ?? - ? )', '2', //2
-    '2', '有二種， 如 ?? + rec1( ?? / ? )', '2', //3
-    '1', '有二種， 如 ?? * rec1( ?? - ? )', '1', //4
-    '1', '有二種， 如 ?? * rec1( ?? - ? )', '2', //5
-    '2', '有二種， 如 ?? * rec1( ?? / ? )', '2', //6
-    '1', '有二種， 如 ?? * ?? + rec1( ?? - ? )', '1', //7
-    '1', '有四種， 如 ?? * (?? - ?) + rec1( ?? - ? )', '1', //8
-    '1', '有四種， 如 ?? * (?? - ???) + rec1( ?? - ? )', '2', //9
+var promptbank = ['base case之回返值', '遞迴之回返呼叫', '觀察<b>等差</b>數列之差值或<b>等比</b>數列之公比','觀察<b>']; //三種漸進提示(共同)
+var promptdetail = ['1', '有二種， 如 ?? + rec1( ?? - ? )', '等差</b>之差值為1', //1
+    '1', '有二種， 如 ?? + rec1( ?? - ? )', '等差</b>之差值為2', //2
+    '2', '有二種， 如 ?? + rec1( ?? / ? )', '等差</b>之差值為2', //3
+    '1', '有二種， 如 ?? * rec1( ?? - ? )', '等比</b>之公比為1', //4
+    '1', '有二種， 如 ?? * rec1( ?? - ? )', '等比</b>之公比為2', //5
+    '2', '有二種， 如 ?? * rec1( ?? / ? )', '等比</b>之公比為2', //6
+    '1', '有二種， 如 ?? * ?? + rec1( ?? - ? )', '等差</b>之差值為1', //7
+    '1', '有四種， 如 ?? * (?? - ?) + rec1( ?? - ? )', '等差</b>之差值為1', //8
+    '1', '有四種， 如 ?? * (?? - ???) + rec1( ?? - ? )', '等差</b>之差值為2', //9
 ]; //三種漸進提示細節 (need to complete)
 var errcount = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //新增: for each questions答錯次數! New
 var n = -1; //getElementById
@@ -102,12 +102,12 @@ function check() {
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount == 1) { //second prompts
-            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
             wrongcount = 2;
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount >= 2) { //third prompts
-            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 3] + "<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
             msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
             msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
             //wrongcount=3;
@@ -129,12 +129,12 @@ function check() {
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount == 1) { //second prompts
-            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
             wrongcount = 2;
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount >= 2) { //third prompts
-            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 3] + "<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
             msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
             msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
             //wrongcount=3;
@@ -156,12 +156,12 @@ function check() {
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount == 1) { //second prompts
-            msg == "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2];
             wrongcount = 2;
             errcount[n] = wrongcount;
             localStorage.setItem("fiberr"+n,errcount[n]);
         } else if (wrongcount >= 2) { //third prompts
-            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 2] + "為<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
+            msg = "<font color=red>答錯!</font><img src=bad.gif width=60 height=60>請注意" + promptbank[0 + 3] + "<font color=red>" + promptdetail[3 * n + 2] + "</font><br>";
             msg += promptbank[0 + 0] + "為<font color=red>" + promptdetail[3 * n + 0] + "</font><br>";
             msg += promptbank[0 + 1] + "為<font color=red>" + promptdetail[3 * n + 1] + "</font><br>";
             //wrongcount=3;
