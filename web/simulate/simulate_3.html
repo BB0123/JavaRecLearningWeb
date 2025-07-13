@@ -8,14 +8,27 @@ var ans="",tmp,stackop="",stackstore="";
 var time=0;
     function check1(){
         var input = document.getElementById("a1").value;
-        ans="";
-        demoA(input);
-        var uans= document.getElementById("res1").value;
-        var fb1= document.getElementById("feedback1");
-        if (uans==ans)
-            fb1.innerHTML="<font color=red>Correct!</font>" ;
-        else 
-            fb1.innerHTML="<font color=blue>Incorrect!</font>" ;
+        if(input>=0 && input<=6 && input%1==0){
+            ans="";
+            demoA(input);
+            var uans= document.getElementById("res1").value;
+            var fb1= document.getElementById("feedback1");
+            if (uans==ans)
+                fb1.innerHTML="<font color=red>Correct!</font>" ;
+            else 
+                fb1.innerHTML="<font color=blue>Incorrect!</font>" ;
+        }
+        else{
+            alert("請輸入整數 0~6");
+            document.getElementById("res1").value="";
+            document.getElementById("feedback1").innerHTML="";
+            document.getElementById('nextstep').disabled=true;
+            document.getElementById('animatestart').disabled=true;
+            document.getElementById('startall').disabled=true;
+            document.getElementById('clear_all').disabled=true;
+            document.getElementById('checkans').disabled=true;
+            document.getElementById('showans').disabled=true; 
+        }
     }
 
 	function run_answer(){
