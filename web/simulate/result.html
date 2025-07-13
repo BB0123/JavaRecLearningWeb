@@ -2,7 +2,7 @@
 <script>
 	var array=[""];
 	function get_item() {
-		for(var i=0;i<11;i++){
+		for(var i=0;i<7;i++){
 			array[i]=localStorage.getItem("sim"+(i+1));
 			if(array[i]==0){
 				document.getElementById("n"+(i+1)).innerHTML="尚未模擬";
@@ -13,7 +13,7 @@
 	}
 
 	function clearA() {
-		for(var i=1;i<12;i++){
+		for(var i=1;i<8;i++){
 				localStorage.setItem("sim"+i,0);
 				document.getElementById("n"+i).innerHTML="尚未模擬";
 		}
