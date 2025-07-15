@@ -7,11 +7,11 @@ var comment1=["宣告陣列且放入初值:int [] ss1=[","呼叫函式:demoA(ss1
 var ans="";
 var time=0;
     function check1(){
-        var input = document.getElementById("a1").value;
+        var input = Math.floor(document.getElementById("a1").value);
         if(input>=0 && input<=5 && input%1==0){
             ans="";
             for(var i=0;i<6;i++){
-                    ss1[i]=document.getElementById("arr"+i).value;
+                    ss1[i]=Math.floor(document.getElementById("arr"+i).value);
             }
             demoA(ss1,input,ss1.length-1);
             var uans= document.getElementById("res1").value;
@@ -44,7 +44,7 @@ var ss1=[];
     function run_answer(){
         clearall();
         time=localStorage.getItem("sim5");
-        var input = document.getElementById("a1").value;
+        var input = Math.floor(document.getElementById("a1").value);
                 a=input;
         if(input>=0 && input<=5 && input%1==0){
             ans="";
@@ -59,7 +59,7 @@ var ss1=[];
             document.getElementById('checkans').disabled=false;
             document.getElementById('showans').disabled=false;
             for(var i=0;i<6;i++){
-                ss1[i]=document.getElementById("arr"+i).value;
+                ss1[i]=Math.floor(document.getElementById("arr"+i).value);
                 if(ss1[i]<2 || ss1[i]>99){
                     alert("請輸入整數 2~99")
                     document.getElementById("res1").value="";

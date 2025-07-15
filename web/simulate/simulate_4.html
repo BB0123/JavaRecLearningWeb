@@ -8,8 +8,8 @@ var ans=0;
 var tmp,stackop="";
 var time=0;
     function check1(){
-        var input_a = document.getElementById("a1").value;
-        var input_b = document.getElementById("b1").value;
+        var input_a = parseInt(document.getElementById("a1").value);
+        var input_b = parseInt(document.getElementById("b1").value);
         if(input_a>=1 && input_a<=6 && input_b>=1 && input_b<=6){
             ans=demoA(input_a,input_b);
             var uans= document.getElementById("res1").value;
@@ -34,8 +34,8 @@ var time=0;
 	function run_answer(){
         clearall();
         time=localStorage.getItem("sim4");
-		var input_a = document.getElementById("a1").value;
-        var input_b = document.getElementById("b1").value;
+		var input_a = parseInt(document.getElementById("a1").value);
+        var input_b = parseInt(document.getElementById("b1").value);
         a=input_a;
         b=input_b;
 		if(input_a>=1 && input_a<=6 && input_b>=1 && input_b<=6){
@@ -101,8 +101,8 @@ function calnext() {
     document.getElementById('b1').disabled=true;
  if  (next==0) { //(prev==-1 && seq==-1)
       //prev=-1;
-      a=document.getElementById('a1').value;
-      b=document.getElementById('b1').value;
+      a=parseInt(document.getElementById('a1').value);
+      b=parseInt(document.getElementById('b1').value);
       document.getElementById('aa1').value=a;
       document.getElementById('bb1').value=b;
       m=a;

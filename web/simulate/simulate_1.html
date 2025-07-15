@@ -7,7 +7,7 @@ var comment1=["宣告變數且放入初值:int a=","呼叫函式:demoA(", "執�
 var ans="";
 var time=0;
     function check1(){
-        var input = document.getElementById("a1").value;
+        var input = parseInt(document.getElementById("a1").value);
         if(input>=0 && input<=6 && input%1==0){
             ans="";
             demoA(input);
@@ -34,7 +34,7 @@ var time=0;
 	function run_answer(){
         clearall();
         time=localStorage.getItem("sim1");
-		var input = document.getElementById("a1").value;
+		var input = parseInt(document.getElementById("a1").value);
                 a=input;
 		if(input>=0 && input<=6 && input%1==0){
 			ans="";
@@ -95,7 +95,7 @@ function calnext() {
     document.getElementById('a1').disabled=true;
     if  (next==0) { //(prev==-1 && seq==-1)
       //prev=-1;
-      a=document.getElementById('a1').value;
+      a=parseInt(document.getElementById('a1').value);
       document.getElementById('aa1').value=a;
       n=a;
       seq=prev+1;show(seq); 
